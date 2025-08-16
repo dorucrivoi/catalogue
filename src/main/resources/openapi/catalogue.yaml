@@ -1,0 +1,484 @@
+openapi: 3.0.3
+info:
+  title: School Management API
+  version: 1.0.0
+  description: API for managing catalogues, semesters, students, disciplines, and grades.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /catalogues:
+    post:
+      summary: Create a new catalogue
+      operationId: createCatalogue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCatalogueRequest'
+      responses:
+        '201':
+          description: Catalogue created
+    get:
+      summary: Get all catalogues
+      operationId: getAllCatalogues
+      responses:
+        '200':
+          description: List of catalogues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CatalogueResponse'
+
+  /catalogues/{id}:
+    get:
+      summary: Get catalogue by ID
+      operationId: getCatalogueById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Catalogue details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogueResponse'
+    put:
+      summary: Update catalogue by ID
+      operationId: updateCatalogue
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCatalogueRequest'
+      responses:
+        '200':
+          description: Updated catalogue
+    delete:
+      summary: Delete catalogue by ID
+      operationId: deleteCatalogue
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Catalogue deleted
+  /students:
+    post:
+      summary: Create a new student
+      operationId: createStudent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+      responses:
+        '201':
+          description: Student created
+    get:
+      summary: Get all students
+      operationId: getAllStudents
+      responses:
+        '200':
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+
+  /students/{id}:
+    get:
+      summary: Get student by ID
+      operationId: getStudentById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Student details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+    put:
+      summary: Update student by id
+      operationId: updateStudent
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudentRequest'
+      responses:
+        '200':
+          description: Updated student
+    delete:
+      summary: Delete student by ID
+      operationId: deleteStudent
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Student deleted
+
+  /disciplines:
+    post:
+      summary: Create a new discipline
+      operationId: createDiscipline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDisciplineRequest'
+      responses:
+        '201':
+          description: Discipline created
+    get:
+      summary: Get all disciplines
+      operationId: getAllDisciplines
+      responses:
+        '200':
+          description: List of disciplines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DisciplineResponse'
+
+  /disciplines/{id}:
+    get:
+      summary: Get discipline by ID
+      operationId: getDisciplineById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Discipline details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisciplineResponse'
+    put:
+      summary: Update discipline by ID
+      operationId: updateDiscipline
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDisciplineRequest'
+      responses:
+        '200':
+          description: Updated discipline
+    delete:
+      summary: Delete discipline by ID
+      operationId: deleteDiscipline
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Discipline deleted
+
+  /grades:
+    post:
+      summary: Create a new grade
+      operationId: createGrade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGradeRequest'
+      responses:
+        '201':
+          description: Grade created
+    get:
+      summary: Get all grades
+      operationId: getAllGrades
+      responses:
+        '200':
+          description: List of grades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+
+  /grades/{id}:
+    get:
+      summary: Get grade by ID
+      operationId: getGradeById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Grade details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeResponse'
+    put:
+      summary: Update grade by ID
+      operationId: updateGrade
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGradeRequest'
+      responses:
+        '200':
+          description: Updated grade
+    delete:
+      summary: Delete grade by ID
+      operationId: deleteGrade
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Grade deleted
+
+components:
+  schemas:
+    CatalogueRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        catalogueCode:
+          type: string
+        classCode:
+          type: string
+        year:
+          type: integer
+      required:
+        - name
+        - catalogueCode
+    CreateCatalogueRequest:
+      type: object
+      properties:
+        classCode:
+          type: string
+        year:
+          type: integer
+      required:
+        - classCode
+        - year
+    UpdateCatalogueRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatalogueRequest'
+        - type: object
+
+    CatalogueResponse:
+      allOf:
+        - $ref: '#/components/schemas/CatalogueRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+
+    SemesterRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        catalogueId:
+          type: integer
+      required:
+        - name
+        - catalogueId
+    CreateSemesterRequest:
+      allOf:
+        - $ref: '#/components/schemas/SemesterRequest'
+        - type: object
+    UpdateSemesterRequest:
+      allOf:
+        - $ref: '#/components/schemas/SemesterRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+    SemesterResponse:
+      allOf:
+        - $ref: '#/components/schemas/SemesterRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+
+    StudentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        catalogueCode:
+          type: string
+        studentCode:
+          type: string
+      required:
+        - name
+        - catalogueCode
+    CreateStudentRequest:
+      allOf:
+        - $ref: '#/components/schemas/StudentRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+    UpdateStudentRequest:
+      allOf:
+        - $ref: '#/components/schemas/StudentRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+    StudentResponse:
+      allOf:
+        - $ref: '#/components/schemas/StudentRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+
+    DisciplineRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        disciplineCode:
+          type: string
+      required:
+        - name
+    CreateDisciplineRequest:
+      allOf:
+        - $ref: '#/components/schemas/DisciplineRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+    UpdateDisciplineRequest:
+      allOf:
+        - $ref: '#/components/schemas/DisciplineRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+
+
+    DisciplineResponse:
+      allOf:
+        - $ref: '#/components/schemas/DisciplineRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+
+    GradeRequest:
+      type: object
+      properties:
+        semesterId:
+          type: integer
+        disciplineId:
+          type: integer
+        studentId:
+          type: integer
+        professorCode:
+          type: string
+        gradeValue:
+          type: number
+          format: float
+        date:
+          type: string
+          format: date
+      required:
+        - semesterId
+        - disciplineId
+        - studentId
+        - professorCode
+        - gradeValue
+    CreateGradeRequest:
+      allOf:
+        - $ref: '#/components/schemas/GradeRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+    UpdateGradeRequest:
+      allOf:
+        - $ref: '#/components/schemas/GradeRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+    GradeResponse:
+      allOf:
+        - $ref: '#/components/schemas/GradeRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
