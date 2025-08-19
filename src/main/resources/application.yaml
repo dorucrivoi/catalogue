@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
@@ -15,3 +17,14 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+
+logging:
+  level:
+    root: INFO
+    org.springframework.amqp: DEBUG

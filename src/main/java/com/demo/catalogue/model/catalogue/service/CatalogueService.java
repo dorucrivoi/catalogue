@@ -1,5 +1,6 @@
 package com.demo.catalogue.model.catalogue.service;
 
+import com.demo.catalogue.administration.events.SchoolClassCreatedConsumer;
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
 import com.demo.catalogue.model.catalogue.repository.CatalogueRepository;
 import com.demo.catalogue.model.semester.entity.Semester;
@@ -25,14 +26,14 @@ public class CatalogueService  {
         this.semesterRepository = semesterRepository;
     }
 
-
-    public Catalogue createCatalogue(CreateCatalogueRequest request) {
+    @Transactional
+    public Catalogue createCatalogue(SchoolClassCreatedConsumer event) {
 // trebuie adus in managecatalogue si toata logica
         Catalogue catalogue = new Catalogue();
-        catalogue.setName("Catalogul " + request.getClassCode());
-        catalogue.setCatalogueCode( request.getClassCode()  + "-" + request.getYear());
-        catalogue.setClassCode(request.getClassCode());
-        catalogue.setYear(request.getYear());
+        catalogue.setName("Catalogul " + event.getClassCode());
+        catalogue.setCatalogueCode( event.getClassCode()  + "-" + event.getYear());
+        catalogue.setClassCode(event.getClassCode());
+        catalogue.setYear(event.getYear());
         catalogue.setSemesters(createSemesters(catalogue));
 //fac validare si arunc exceptie avand deja entitatea catalogue trimisa
         //de creat un handler exception

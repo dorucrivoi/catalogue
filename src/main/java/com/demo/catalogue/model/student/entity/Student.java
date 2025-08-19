@@ -17,7 +17,7 @@ public class Student {
 
     private String catalogueCode;
 
-    @Column(unique = true)
+    @Column(name="CODE",unique = true)
     private String studentCode;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)

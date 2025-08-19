@@ -17,7 +17,7 @@ public class Catalogue {
     @Column(name="NAME")
     private String name;
 
-    @Column(name="CATALOGUE_CODE",unique = true)
+    @Column(name="CODE",unique = true)
     private String catalogueCode;
 
     @Column(name="CLASS_CODE")

@@ -319,16 +319,6 @@ components:
       required:
         - name
         - catalogueCode
-    CreateCatalogueRequest:
-      type: object
-      properties:
-        classCode:
-          type: string
-        year:
-          type: integer
-      required:
-        - classCode
-        - year
     UpdateCatalogueRequest:
       allOf:
         - $ref: '#/components/schemas/CatalogueRequest'
