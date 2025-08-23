@@ -1,11 +1,10 @@
 package com.demo.catalogue.model.catalogue.service;
 
-import com.demo.catalogue.administration.events.SchoolClassCreatedConsumer;
+import com.demo.catalogue.model.catalogue.events.SchoolClassCreatedEvent;
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
 import com.demo.catalogue.model.catalogue.repository.CatalogueRepository;
 import com.demo.catalogue.model.semester.entity.Semester;
 import com.demo.catalogue.model.semester.repository.SemesterRepository;
-import com.example.model.CreateCatalogueRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class CatalogueService  {
     }
 
     @Transactional
-    public Catalogue createCatalogue(SchoolClassCreatedConsumer event) {
+    public Catalogue createCatalogue(SchoolClassCreatedEvent event) {
 // trebuie adus in managecatalogue si toata logica
         Catalogue catalogue = new Catalogue();
         catalogue.setName("Catalogul " + event.getClassCode());

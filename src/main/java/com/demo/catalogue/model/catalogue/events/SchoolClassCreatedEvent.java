@@ -1,11 +1,11 @@
-package com.demo.catalogue.administration.events;
+package com.demo.catalogue.model.catalogue.events;
 
-public class SchoolClassCreatedConsumer {
+public class SchoolClassCreatedEvent {
 
     private String classCode;
     private int year;
 
-    public SchoolClassCreatedConsumer(String classCode, int year) {
+    public SchoolClassCreatedEvent(String classCode, int year) {
         this.classCode = classCode;
         this.year = year;
     }

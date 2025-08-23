@@ -32,7 +32,7 @@ CREATE TABLE GRADE (
     discipline_id BIGINT NOT NULL,
     student_id BIGINT NOT NULL,
     professor_code VARCHAR(50) NOT NULL,
-    grade_value DECIMAL(5,2) NOT NULL,
+    grade_value INTEGER NOT NULL,
     date DATE,
     FOREIGN KEY (semester_id) REFERENCES semester(id) ON DELETE CASCADE,
     FOREIGN KEY (discipline_id) REFERENCES discipline(id) ON DELETE CASCADE,

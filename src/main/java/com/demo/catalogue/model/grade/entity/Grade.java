@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "GRADE")
 public class Grade {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,4 +33,60 @@ public class Grade {
 
     private LocalDate date;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Semester getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Semester semester) {
+        this.semester = semester;
+    }
+
+    public Discipline getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(Discipline discipline) {
+        this.discipline = discipline;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public String getProfessorCode() {
+        return professorCode;
+    }
+
+    public void setProfessorCode(String professorCode) {
+        this.professorCode = professorCode;
+    }
+
+    public BigDecimal getGradeValue() {
+        return gradeValue;
+    }
+
+    public void setGradeValue(BigDecimal gradeValue) {
+        this.gradeValue = gradeValue;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }

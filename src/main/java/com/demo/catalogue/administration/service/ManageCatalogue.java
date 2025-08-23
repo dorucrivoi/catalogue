@@ -2,7 +2,6 @@ package com.demo.catalogue.administration.service;
 
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
 import com.demo.catalogue.model.catalogue.service.CatalogueService;
-import com.example.model.CreateCatalogueRequest;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +19,13 @@ public class ManageCatalogue {
         this.catalogueService = catalogueService;
     }
 
-//    @Transactional
-//    public Catalogue createCatalogue(CreateCatalogueRequest request){// DTO convertit din json
-//        //un json construit si trimis prin eveniment
-//        // de create un Consumer
-//        //ExceptionHandler pentru RestController
-//        //validarea dupa code +year sa vedem
-//       // return catalogueService.createCatalogue(request);
-//        return null
-//    }
+    @Transactional
+    public Catalogue createCatalogue(CreateCatalogueDetails  createCatalogueDetails){// DTO convertit din json
+        //un json construit si trimis prin eveniment
+        // de create un Consumer
+        //ExceptionHandler pentru RestController
+        //validarea dupa code +year sa vedem
+       // return catalogueService.createCatalogue(createCatalogueDetails);
+        return null;
+    }
 }

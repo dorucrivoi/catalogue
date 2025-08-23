@@ -15,11 +15,52 @@ public class Student {
 
     private String name;
 
-    private String catalogueCode;
+    @Column(name = "CAT_CODE", nullable = false)
+    private String catCode;
 
-    @Column(name="CODE",unique = true)
-    private String studentCode;
+    @Column(unique = true, nullable = false)
+    private String code;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Grade> grades;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCatCode() {
+        return catCode;
+    }
+
+    public void setCatCode(String catCode) {
+        this.catCode = catCode;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public List<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<Grade> grades) {
+        this.grades = grades;
+    }
 }

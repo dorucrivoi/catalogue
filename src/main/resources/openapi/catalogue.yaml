@@ -8,79 +8,6 @@ servers:
   - url: http://localhost:8080
 
 paths:
-  /catalogues:
-    post:
-      summary: Create a new catalogue
-      operationId: createCatalogue
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCatalogueRequest'
-      responses:
-        '201':
-          description: Catalogue created
-    get:
-      summary: Get all catalogues
-      operationId: getAllCatalogues
-      responses:
-        '200':
-          description: List of catalogues
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CatalogueResponse'
-
-  /catalogues/{id}:
-    get:
-      summary: Get catalogue by ID
-      operationId: getCatalogueById
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Catalogue details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CatalogueResponse'
-    put:
-      summary: Update catalogue by ID
-      operationId: updateCatalogue
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCatalogueRequest'
-      responses:
-        '200':
-          description: Updated catalogue
-    delete:
-      summary: Delete catalogue by ID
-      operationId: deleteCatalogue
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Catalogue deleted
   /students:
     post:
       summary: Create a new student
@@ -154,6 +81,23 @@ paths:
       responses:
         '204':
           description: Student deleted
+  /students/{code}/professors :
+    get:
+      summary: Get professors by student code.
+      operationId: getProfessorsByStudentCode
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get all the professors for a class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfessorResponse'
 
   /disciplines:
     post:
@@ -305,33 +249,6 @@ paths:
 
 components:
   schemas:
-    CatalogueRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        catalogueCode:
-          type: string
-        classCode:
-          type: string
-        year:
-          type: integer
-      required:
-        - name
-        - catalogueCode
-    UpdateCatalogueRequest:
-      allOf:
-        - $ref: '#/components/schemas/CatalogueRequest'
-        - type: object
-
-    CatalogueResponse:
-      allOf:
-        - $ref: '#/components/schemas/CatalogueRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
-
     SemesterRequest:
       type: object
       properties:
@@ -472,3 +389,16 @@ components:
           properties:
             id:
               type: integer
+
+    ProfessorResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        disciplineCode:
+          type: string
+        professorCode:
+          type: string
