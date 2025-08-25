@@ -81,23 +81,33 @@ paths:
       responses:
         '204':
           description: Student deleted
-  /students/{code}/professors :
+  /students/{classCode}/professors:
     get:
-      summary: Get professors by student code.
-      operationId: getProfessorsByStudentCode
+      summary: Get professors by classCode and year.
+      operationId: getProfessorsForStudent
       parameters:
         - in: path
-          name: code
+          name: classCode
           required: true
           schema:
             type: string
+          description: The classCode of the class
+        - in: query
+          name: year
+          required: true
+          schema:
+           type: integer
+           format: int64
+          description: The year of the class
       responses:
         '200':
           description: Get all the professors for a class
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProfessorResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfessorResponse'
 
   /disciplines:
     post:
@@ -172,7 +182,6 @@ paths:
       responses:
         '204':
           description: Discipline deleted
-
   /grades:
     post:
       summary: Create a new grade
