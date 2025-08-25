@@ -1,4 +1,4 @@
-package com.demo.catalogue.exception;
+package com.demo.catalogue.handler;
 
 import java.time.LocalDateTime;
 

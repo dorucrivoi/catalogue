@@ -2,13 +2,17 @@ package com.demo.catalogue.administration.messaging;
 
 import com.demo.catalogue.model.catalogue.events.SchoolClassCreatedEvent;
 import com.demo.catalogue.model.catalogue.service.CatalogueService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SchoolClassConsumer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchoolClassConsumer.class);
 
     private final ObjectMapper objectMapper;
     private final CatalogueService catalogueService;
@@ -32,9 +36,12 @@ public class SchoolClassConsumer {
             System.out.println("📥 Received event: " + event);
             // de creat un DTO - CatalogueCreateDetails
             //TODO mai trebuie folosit ManageCatalogue sau folosim sau service-urile??
+            //TODO de ce se opreste doar cand prind Exception???
             catalogueService.createCatalogue(event);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             System.err.println("❌ Failed to parse JSON: " + e.getMessage());
+        } catch (Exception ex){
+            LOGGER.error(ex.getMessage());
         }
     }
 }

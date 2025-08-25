@@ -1,5 +1,6 @@
 package com.demo.catalogue.model.catalogue.service;
 
+import com.demo.catalogue.exception.CatalogueCreatedException;
 import com.demo.catalogue.model.catalogue.events.SchoolClassCreatedEvent;
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
 import com.demo.catalogue.model.catalogue.repository.CatalogueRepository;
@@ -24,10 +25,14 @@ public class CatalogueService  {
         this.catalogueRepository = catalogueRepository;
         this.semesterRepository = semesterRepository;
     }
-
+//TODO este corect sa am transactional aici?
     @Transactional
     public Catalogue createCatalogue(SchoolClassCreatedEvent event) {
 // trebuie adus in managecatalogue si toata logica
+        if( catalogueRepository.existsByClassCodeAndYear(event.getClassCode(), event.getYear()) ){
+            throw new CatalogueCreatedException("Catalogue have already created");
+        }
+
         Catalogue catalogue = new Catalogue();
         catalogue.setName("Catalogul " + event.getClassCode());
         catalogue.setCatalogueCode( event.getClassCode()  + "-" + event.getYear());
