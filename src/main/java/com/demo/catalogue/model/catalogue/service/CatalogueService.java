@@ -1,6 +1,5 @@
 package com.demo.catalogue.model.catalogue.service;
 
-import com.demo.catalogue.exception.CatalogueCreatedException;
 import com.demo.catalogue.model.catalogue.events.SchoolClassCreatedEvent;
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
 import com.demo.catalogue.model.catalogue.repository.CatalogueRepository;
@@ -30,7 +29,7 @@ public class CatalogueService  {
     public Catalogue createCatalogue(SchoolClassCreatedEvent event) {
 // trebuie adus in managecatalogue si toata logica
         if( catalogueRepository.existsByClassCodeAndYear(event.getClassCode(), event.getYear()) ){
-            throw new CatalogueCreatedException("Catalogue have already created");
+            throw new CatalogueAlreadyCreatedException("Catalogue have already created");
         }
 
         Catalogue catalogue = new Catalogue();

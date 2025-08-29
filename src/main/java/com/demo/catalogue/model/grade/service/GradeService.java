@@ -38,12 +38,12 @@ public class GradeService {
             existingGrade.setProfessorCode(updatedGrade.getProfessorCode());
             existingGrade.setSemester(updatedGrade.getSemester());
             return gradeRepository.save(existingGrade);
-        }).orElseThrow(() -> new RuntimeException("Grade not found with id " + id));
+        }).orElseThrow(() -> new GradeNotFoundException("Grade not found with id " + id));
     }
 
     public void deleteGrade(Long id) {
         if (!gradeRepository.existsById(id)) {
-            throw new RuntimeException("Grade not found with id " + id);
+            throw new GradeNotFoundException("Grade not found with id " + id);
         }
         gradeRepository.deleteById(id);
     }

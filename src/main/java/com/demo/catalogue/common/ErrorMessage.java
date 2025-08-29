@@ -1,30 +1,28 @@
-package com.demo.catalogue.handler;
+package com.demo.catalogue.common;
 
 import java.time.LocalDateTime;
 
 public class ErrorMessage {
 
     private LocalDateTime timestamp;
-    private int status;
+//    private int status;
     private String error;
     private String message;
-    private String path;
 
-    public ErrorMessage(LocalDateTime timestamp, int status, String error, String message, String path) {
+    public ErrorMessage(LocalDateTime timestamp, int status, String error, String message) {
         this.timestamp = timestamp;
-        this.status = status;
+      //  this.status = status;
         this.error = error;
         this.message = message;
-        this.path = path;
     }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public int getStatus() {
-        return status;
-    }
+//    public int getStatus() {
+//        return status;
+//    }
 
     public String getError() {
         return error;
@@ -34,8 +32,5 @@ public class ErrorMessage {
         return message;
     }
 
-    public String getPath() {
-        return path;
-    }
 
 }

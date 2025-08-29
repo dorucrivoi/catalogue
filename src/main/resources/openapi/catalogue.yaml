@@ -5,10 +5,10 @@ info:
   description: API for managing catalogues, semesters, students, disciplines, and grades.
 
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8081
 
 paths:
-  /students:
+  /admin/students:
     post:
       summary: Create a new student
       operationId: createStudent
@@ -34,7 +34,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/StudentResponse'
 
-  /students/{id}:
+  /admin/students/{id}:
     get:
       summary: Get student by ID
       operationId: getStudentById
@@ -109,7 +109,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
 
-  /disciplines:
+  /admin/disciplines:
     post:
       summary: Create a new discipline
       operationId: createDiscipline
@@ -135,7 +135,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/DisciplineResponse'
 
-  /disciplines/{id}:
+  /admin/disciplines/{id}:
     get:
       summary: Get discipline by ID
       operationId: getDisciplineById
@@ -182,7 +182,7 @@ paths:
       responses:
         '204':
           description: Discipline deleted
-  /grades:
+  /professors/grades:
     post:
       summary: Create a new grade
       operationId: createGrade
@@ -208,7 +208,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/GradeResponse'
 
-  /grades/{id}:
+  /professors/grades/{id}:
     get:
       summary: Get grade by ID
       operationId: getGradeById
@@ -258,35 +258,6 @@ paths:
 
 components:
   schemas:
-    SemesterRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        catalogueId:
-          type: integer
-      required:
-        - name
-        - catalogueId
-    CreateSemesterRequest:
-      allOf:
-        - $ref: '#/components/schemas/SemesterRequest'
-        - type: object
-    UpdateSemesterRequest:
-      allOf:
-        - $ref: '#/components/schemas/SemesterRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
-    SemesterResponse:
-      allOf:
-        - $ref: '#/components/schemas/SemesterRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
-
     StudentRequest:
       type: object
       properties:
@@ -344,7 +315,6 @@ components:
           properties:
             id:
               type: integer
-
 
     DisciplineResponse:
       allOf:

@@ -1,10 +1,10 @@
-package com.demo.catalogue.handler;
+package com.demo.catalogue.common;
 
 
 import com.demo.catalogue.administration.controller.DisciplineController;
 import com.demo.catalogue.model.catalogue.service.CatalogueService;
-import com.demo.catalogue.students.controller.GradeController;
-import com.demo.catalogue.students.controller.StudentsController;
+import com.demo.catalogue.professors.GradesController;
+import com.demo.catalogue.administration.controller.StudentsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice(assignableTypes = {
         DisciplineController.class,
         StudentsController.class,
-        GradeController.class,
+        GradesController.class,
         CatalogueService.class
 })
 public class GlobalExceptionHandler {
@@ -71,14 +71,12 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 status.value(),
                 error,
-                ex.getMessage(),
-                request.getDescription(false).replace("uri=", "")
+                ex.getMessage()
         );
         return ResponseEntity.status(status).body(apiError);
     }
 
     private  static void logException(Exception e){
-        LOGGER.error(e.getMessage());
-        LOGGER.debug("Cause:", e);
+        LOGGER.error("Unexpected exception", e);
     }
 }

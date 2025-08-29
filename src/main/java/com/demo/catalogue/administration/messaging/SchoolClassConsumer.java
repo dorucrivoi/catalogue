@@ -1,5 +1,6 @@
 package com.demo.catalogue.administration.messaging;
 
+import com.demo.catalogue.common.ValidationException;
 import com.demo.catalogue.model.catalogue.events.SchoolClassCreatedEvent;
 import com.demo.catalogue.model.catalogue.service.CatalogueService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,11 +38,14 @@ public class SchoolClassConsumer {
             // de creat un DTO - CatalogueCreateDetails
             //TODO mai trebuie folosit ManageCatalogue sau folosim sau service-urile??
             //TODO de ce se opreste doar cand prind Exception???
+            //TODO de configurat logica de retry pentru exceptii la ce exceptie anume
+            //Idempotent consumer pattern
             catalogueService.createCatalogue(event);
         } catch (JsonProcessingException e) {
             System.err.println("❌ Failed to parse JSON: " + e.getMessage());
-        } catch (Exception ex){
-            LOGGER.error(ex.getMessage());
+        } catch (ValidationException ex){
+            //Ignoring exception because the event maybe duplicated
+            LOGGER.error("Catalogue already exists " , ex);
         }
     }
 }

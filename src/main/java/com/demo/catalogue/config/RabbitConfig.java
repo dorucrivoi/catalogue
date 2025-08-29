@@ -17,3 +17,4 @@ public class RabbitConfig {
         return QueueBuilder.durable(QUEUE).build();
     }
 }
+// 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gtgitk
