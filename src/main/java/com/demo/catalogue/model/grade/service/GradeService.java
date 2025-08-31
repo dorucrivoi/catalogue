@@ -2,6 +2,7 @@ package com.demo.catalogue.model.grade.service;
 
 import com.demo.catalogue.model.grade.entity.Grade;
 import com.demo.catalogue.model.grade.repository.GradeRepository;
+import com.demo.catalogue.model.student.service.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +26,9 @@ public class GradeService {
         return gradeRepository.findAll();
     }
 
-    public Grade getGradeById(Long id) {
-        return gradeRepository.findById(id).orElseThrow();
+    public Grade getById(Long id) {
+        return gradeRepository.findById(id)
+                .orElseThrow(() -> new GradeNotFoundException("Grade not found with id " + id));
     }
 
     public Grade updateGrade(Long id, Grade updatedGrade) {
@@ -42,9 +44,8 @@ public class GradeService {
     }
 
     public void deleteGrade(Long id) {
-        if (!gradeRepository.existsById(id)) {
-            throw new GradeNotFoundException("Grade not found with id " + id);
-        }
-        gradeRepository.deleteById(id);
+        Grade grade = gradeRepository.findById(id)
+                .orElseThrow(() -> new GradeNotFoundException("Grade not found with id " + id));
+        gradeRepository.delete(grade);
     }
 }

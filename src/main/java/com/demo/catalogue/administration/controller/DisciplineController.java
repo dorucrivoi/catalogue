@@ -8,13 +8,13 @@ import com.example.model.DisciplineResponse;
 import com.example.model.UpdateDisciplineRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-//@RequestMapping("/api") TODO aici nu merge api pentru voi avea eroare cu api/admin/students
+//@RequestMapping("/api") //TODO aici nu merge api pentru voi avea eroare cu api/admin/students
+//@RequestMapping("/api/admin/disciplines")
 public class DisciplineController implements AdminApi {
 
 
@@ -26,7 +26,7 @@ public class DisciplineController implements AdminApi {
     }
 
     @Override
-    public  ResponseEntity<Void> createDiscipline( CreateDisciplineRequest createDisciplineRequest) {
+    public  ResponseEntity<Void> createDiscipline(@RequestBody CreateDisciplineRequest createDisciplineRequest) {
          disciplineService.create(toEntity(createDisciplineRequest));
         return ResponseEntity.status(201).build();
     }

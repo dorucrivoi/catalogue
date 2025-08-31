@@ -33,46 +33,38 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleEntityNotFound(EntityNotFoundException ex, WebRequest request) {
         logException(ex);
-        return buildErrorMessage(HttpStatus.NOT_FOUND, "Entity not found", ex, request);
+        return buildErrorMessage(HttpStatus.NOT_FOUND, "Entity not found", ex);
     }
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ErrorMessage> handleDatabaseError(DataAccessException ex, WebRequest request) {
         logException(ex);
-        return buildErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Database error", ex, request);
+        return buildErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Database error", ex);
     }
 
     @ExceptionHandler(AmqpException.class)
     public ResponseEntity<ErrorMessage> handleAmqpError(AmqpException ex, WebRequest request) {
         logException(ex);
-        return buildErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, "Message broker error", ex, request);
+        return buildErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, "Message broker error", ex);
     }
-
-//    @ExceptionHandler(AmqpConnectException.class)
-//    public ResponseEntity<ErrorMessage> handleAmqpConnectError(AmqpConnectException ex, WebRequest request) {
-//        log.error("RabbitMQ connection error", ex);
-//        return buildErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, "RabbitMQ connection error", ex, request);
-//    }
 
     @ExceptionHandler(ConnectException.class)
     public ResponseEntity<ErrorMessage> handleConnectException(ConnectException ex, WebRequest request) {
         logException(ex);
-        return buildErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, "Connection refused", ex, request);
+        return buildErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, "Connection refused", ex);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleGenericException(Exception ex, WebRequest request) {
         logException(ex);
-        return buildErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", ex, request);
+        return buildErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", ex);
     }
 
-    private ResponseEntity<ErrorMessage> buildErrorMessage(HttpStatus status, String error, Exception ex, WebRequest request) {
+    private ResponseEntity<ErrorMessage> buildErrorMessage(HttpStatus status, String error, Exception ex) {
         ErrorMessage apiError = new ErrorMessage(
                 LocalDateTime.now(),
-                status.value(),
                 error,
-                ex.getMessage()
-        );
+                ex.getMessage());
         return ResponseEntity.status(status).body(apiError);
     }
 

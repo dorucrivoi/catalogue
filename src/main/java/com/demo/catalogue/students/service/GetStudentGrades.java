@@ -1,19 +1,34 @@
 package com.demo.catalogue.students.service;
 
-import com.demo.catalogue.model.discipline.service.DisciplineService;
-import com.demo.catalogue.model.grade.entity.Grade;
-import com.demo.catalogue.model.grade.service.GradeService;
-import com.demo.catalogue.model.semester.service.SemesterService;
+import com.demo.catalogue.common.GlobalExceptionHandler;
 import com.demo.catalogue.model.student.service.StudentService;
-import com.example.model.CreateGradeRequest;
+import com.demo.catalogue.students.mapper.GradeMapper;
+import com.example.model.GradeResponse;
+import com.example.model.GradesStudentResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public class GetStudentGrades {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    private final StudentService studentService;
+    private final GradeMapper gradeMapper;
+
+    @Autowired
+    public GetStudentGrades(StudentService studentService, GradeMapper gradeMapper) {
+        this.studentService = studentService;
+        this.gradeMapper = gradeMapper;
+    }
+
+    public List<GradesStudentResponse> getStudentGrades(String classCode) {
+        return gradeMapper.toGradesStudentResponseList(studentService.getAllGradesByStudentCode(classCode));
+    }
 
 
 }

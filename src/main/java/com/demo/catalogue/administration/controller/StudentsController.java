@@ -4,6 +4,7 @@ import com.demo.catalogue.administration.service.ManageStudents;
 import com.demo.catalogue.common.GlobalExceptionHandler;
 import com.demo.catalogue.model.student.entity.Student;
 import com.example.api.AdminApi;
+import com.example.model.CreateStudentRequest;
 import com.example.model.StudentRequest;
 import com.example.model.StudentResponse;
 import com.example.model.UpdateStudentRequest;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api") // TODO de corectat daca scot nu se poate instantia si nu trece build-ul
 public class StudentsController implements AdminApi {
     //apel prin resttemplate la didactic personal
 
@@ -40,7 +41,7 @@ public class StudentsController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<Void> createStudent(StudentRequest request) {
+    public ResponseEntity<Void> createStudent(CreateStudentRequest request) {
         manageStudents.createStudent(toEntity(request));
         log.info("Create student with student code = {}", request.getStudentCode());
         return ResponseEntity.status(201).build();
@@ -79,7 +80,7 @@ public class StudentsController implements AdminApi {
         return ResponseEntity.noContent().build();
     }
 
-    public static Student toEntity(StudentRequest request) {
+    public static Student toEntity(CreateStudentRequest request) {
         Student student = new Student();
         student.setName(request.getName());
         student.setCatCode(request.getCatalogueCode());

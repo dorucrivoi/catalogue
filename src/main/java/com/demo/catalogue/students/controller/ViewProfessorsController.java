@@ -5,6 +5,7 @@ import com.example.api.StudentsApi;
 import com.example.model.ProfessorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,19 +15,17 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/students/classCode")
 public class ViewProfessorsController implements StudentsApi {
 
     // TODO de creat in
     //TODO doar stundetii si profesorii au access catre catalogue si responsabilitatiele
     // catalogue si didactic personal
     // administra
-    //TODO putem utiliza codul studentului pentru a extrage profesorii dontr-o clasa
-    //TODO asta inseamna o interogare in plus pentru a extraga class code si anul bazat pe codul studentului
 // prin adaugarea actorilor admin/students se va decide rolurile
     //shallow health check  de citit  deep health check - se face in catalogue si se verifica dependeta intre servicii
     //health check indicator spring si  in catalogue - se poate adauga un ping
-    private static final String BASE_URL = "http://localhost:8080/api/professors";
+    private static final String BASE_URL = "http://localhost:8080/api/admin/professors";
 
     private final WebClient webClient;
 
@@ -36,7 +35,8 @@ public class ViewProfessorsController implements StudentsApi {
     }
 
     @Override
-    public ResponseEntity<List<ProfessorResponse>> getProfessorsForStudent(String classCode, Long year) {
+//    @GetMapping("/{classCode}/professors")
+    public ResponseEntity<List<ProfessorResponse>> getProfessorsForStudent(String classCode, Integer year) {
         String url = BASE_URL + "/{classCode}/student?year={year}";
 
         List<ProfessorResponse> professors = webClient.get()

@@ -7,11 +7,13 @@ import com.example.model.GradeResponse;
 import com.example.model.UpdateGradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 
 @RestController
+//@RequestMapping("/api")
+//@RequestMapping("/api/admin/disciplines")
 public class GradesController implements ProfessorsApi {
 
         private ManageGrades gradeService;
@@ -45,39 +47,15 @@ public class GradesController implements ProfessorsApi {
             return ResponseEntity.ok(mapToResponse(grade));
         }
 
-
-        // --- Mapping helpers (DTO <-> Entity) ---
-        private Grade mapToEntity(CreateGradeRequest request) {
-            Grade grade = new Grade();
-            grade.setGradeValue(BigDecimal.valueOf(request.getGradeValue()));
-            grade.setDate(request.getDate());
-//            grade.setStudent(request.getStudent());
-//            grade.setDiscipline(request.getDiscipline());
-            grade.setProfessorCode(request.getProfessorCode());
-//            grade.setSemester(request.getSemester());
-            return grade;
-        }
-
-        private Grade mapToEntity(UpdateGradeRequest request) {
-            Grade grade = new Grade();
-            grade.setGradeValue(BigDecimal.valueOf(request.getGradeValue()));
-            grade.setDate(request.getDate());
-//            grade.setStudent(request.getStudent());
-//            grade.setDiscipline(request.getDiscipline());
-            grade.setProfessorCode(request.getProfessorCode());
-//            grade.setSemester(request.getSemester());
-            return grade;
-        }
-
         private GradeResponse mapToResponse(Grade grade) {
             GradeResponse response = new GradeResponse();
             response.setId(grade.getId().intValue());
             response.setGradeValue(grade.getGradeValue().floatValue());
             response.setDate(grade.getDate());
-//            response.setStudent(grade.getStudent());
-//            response.setDiscipline(grade.getDiscipline());
+            response.setStudentId(grade.getStudent().getId().intValue());
+            response.setDisciplineId(grade.getDiscipline().getId().intValue());
             response.setProfessorCode(grade.getProfessorCode());
-//            response.setSemester(grade.getSemester());
+            response.setSemesterId(grade.getSemester().getId().intValue());
             return response;
         }
 }

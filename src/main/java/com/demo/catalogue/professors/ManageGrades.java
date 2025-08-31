@@ -37,8 +37,7 @@ public class ManageGrades {
 
     @Transactional
     public Grade updateGrade(Integer id, UpdateGradeRequest updateGradeRequest){
-        gradeService.updateGrade(id.longValue(), mapToEntity(updateGradeRequest));
-        return new Grade();
+       return gradeService.updateGrade(id.longValue(), mapToEntity(updateGradeRequest));
     }
 
     @Transactional
@@ -47,7 +46,7 @@ public class ManageGrades {
     }
 
     public Grade getGradeById(Long id) {
-        return gradeService.getGradeById(id);
+        return gradeService.getById(id);
     }
 
     private Grade mapToEntity(CreateGradeRequest request) {

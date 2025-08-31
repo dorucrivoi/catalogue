@@ -2,14 +2,24 @@ openapi: 3.0.3
 info:
   title: School Management API
   version: 1.0.0
-  description: API for managing catalogues, semesters, students, disciplines, and grades.
+  description: API for managing catalogues, students, disciplines, and grades.
 
 servers:
   - url: http://localhost:8081
 
+tags:
+  - name: Students
+    description: Operations related to students
+  - name: Admin
+    description: Administrative operations
+  - name: Professors
+    description: Operations related to professors and grades
+
 paths:
-  /admin/students:
+  /api/admin/students:
     post:
+      tags:
+        - Admin
       summary: Create a new student
       operationId: createStudent
       requestBody:
@@ -17,11 +27,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudentRequest'
+              $ref: '#/components/schemas/CreateStudentRequest'
       responses:
         '201':
           description: Student created
     get:
+      tags:
+        - Admin
       summary: Get all students
       operationId: getAllStudents
       responses:
@@ -34,8 +46,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/StudentResponse'
 
-  /admin/students/{id}:
+  /api/admin/students/{id}:
     get:
+      tags:
+        - Admin
       summary: Get student by ID
       operationId: getStudentById
       parameters:
@@ -52,7 +66,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/StudentResponse'
     put:
-      summary: Update student by id
+      tags:
+        - Admin
+      summary: Update student by ID
       operationId: updateStudent
       parameters:
         - in: path
@@ -70,6 +86,8 @@ paths:
         '200':
           description: Updated student
     delete:
+      tags:
+        - Admin
       summary: Delete student by ID
       operationId: deleteStudent
       parameters:
@@ -81,9 +99,12 @@ paths:
       responses:
         '204':
           description: Student deleted
-  /students/{classCode}/professors:
+
+  /api/students/classCode/{classCode}/professors:
     get:
-      summary: Get professors by classCode and year.
+      tags:
+        - Students
+      summary: Get professors for a class and year
       operationId: getProfessorsForStudent
       parameters:
         - in: path
@@ -91,17 +112,14 @@ paths:
           required: true
           schema:
             type: string
-          description: The classCode of the class
         - in: query
           name: year
           required: true
           schema:
-           type: integer
-           format: int64
-          description: The year of the class
+            type: integer
       responses:
         '200':
-          description: Get all the professors for a class
+          description: Professors list
           content:
             application/json:
               schema:
@@ -109,8 +127,32 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
 
-  /admin/disciplines:
+  /api/students/studentCode/{studentCode}/grades:
+    get:
+      tags:
+        - Students
+      summary: Get grades by studentCode
+      operationId: getGradesForStudent
+      parameters:
+        - in: path
+          name: studentCode
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Grades list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradesStudentResponse'
+
+  /api/admin/disciplines:
     post:
+      tags:
+        - Admin
       summary: Create a new discipline
       operationId: createDiscipline
       requestBody:
@@ -123,6 +165,8 @@ paths:
         '201':
           description: Discipline created
     get:
+      tags:
+        - Admin
       summary: Get all disciplines
       operationId: getAllDisciplines
       responses:
@@ -135,8 +179,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/DisciplineResponse'
 
-  /admin/disciplines/{id}:
+  /api/admin/disciplines/{id}:
     get:
+      tags:
+        - Admin
       summary: Get discipline by ID
       operationId: getDisciplineById
       parameters:
@@ -153,6 +199,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/DisciplineResponse'
     put:
+      tags:
+        - Admin
       summary: Update discipline by ID
       operationId: updateDiscipline
       parameters:
@@ -171,6 +219,8 @@ paths:
         '200':
           description: Updated discipline
     delete:
+      tags:
+        - Admin
       summary: Delete discipline by ID
       operationId: deleteDiscipline
       parameters:
@@ -182,8 +232,11 @@ paths:
       responses:
         '204':
           description: Discipline deleted
-  /professors/grades:
+
+  /api/professors/grades:
     post:
+      tags:
+        - Professors
       summary: Create a new grade
       operationId: createGrade
       requestBody:
@@ -196,6 +249,8 @@ paths:
         '201':
           description: Grade created
     get:
+      tags:
+        - Professors
       summary: Get all grades
       operationId: getAllGrades
       responses:
@@ -208,8 +263,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/GradeResponse'
 
-  /professors/grades/{id}:
+  /api/professors/grades/{id}:
     get:
+      tags:
+        - Professors
       summary: Get grade by ID
       operationId: getGradeById
       parameters:
@@ -226,6 +283,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GradeResponse'
     put:
+      tags:
+        - Professors
       summary: Update grade by ID
       operationId: updateGrade
       parameters:
@@ -244,6 +303,8 @@ paths:
         '200':
           description: Updated grade
     delete:
+      tags:
+        - Professors
       summary: Delete grade by ID
       operationId: deleteGrade
       parameters:
@@ -273,10 +334,6 @@ components:
     CreateStudentRequest:
       allOf:
         - $ref: '#/components/schemas/StudentRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
     UpdateStudentRequest:
       allOf:
         - $ref: '#/components/schemas/StudentRequest'
@@ -304,10 +361,6 @@ components:
     CreateDisciplineRequest:
       allOf:
         - $ref: '#/components/schemas/DisciplineRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
     UpdateDisciplineRequest:
       allOf:
         - $ref: '#/components/schemas/DisciplineRequest'
@@ -315,7 +368,6 @@ components:
           properties:
             id:
               type: integer
-
     DisciplineResponse:
       allOf:
         - $ref: '#/components/schemas/DisciplineRequest'
@@ -350,10 +402,6 @@ components:
     CreateGradeRequest:
       allOf:
         - $ref: '#/components/schemas/GradeRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
     UpdateGradeRequest:
       allOf:
         - $ref: '#/components/schemas/GradeRequest'
@@ -381,3 +429,19 @@ components:
           type: string
         professorCode:
           type: string
+
+    GradesStudentResponse:
+      type: object
+      properties:
+        semesterName:
+          type: string
+        disciplineCode:
+          type: string
+        professorCode:
+          type: string
+        gradeValue:
+          type: number
+          format: float
+        date:
+          type: string
+          format: date
