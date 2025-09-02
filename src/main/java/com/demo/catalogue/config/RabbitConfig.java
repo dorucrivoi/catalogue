@@ -10,11 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitConfig {
 
-    public static final String QUEUE = "school-class-created-queue";
+    public static final String QUEUE = "school-class-queue";
 
     @Bean
-    public Queue queue() {
+    public Queue queueCreate() {
         return QueueBuilder.durable(QUEUE).build();
     }
+
 }
 // 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gtgitk

@@ -1,5 +1,6 @@
 package com.demo.catalogue.model.student.service;
 
+import com.demo.catalogue.model.catalogue.entity.Catalogue;
 import com.demo.catalogue.model.grade.entity.Grade;
 import com.demo.catalogue.model.student.entity.Student;
 import com.demo.catalogue.model.student.repository.StudentRepository;
@@ -48,5 +49,10 @@ public class StudentService {
                 throw new StudentNotFoundException("No grades found for studentCode " + studentCode);
             }
             return grades;
-        }
+    }
+
+    public Catalogue getCatalogueForStudent(String studentCode) {
+        return studentRepository.findCatalogueByStudentCode(studentCode)
+                .orElseThrow(() -> new StudentCatalogueNotFoundException("No catalogue found for student code: " + studentCode));
+    }
 }

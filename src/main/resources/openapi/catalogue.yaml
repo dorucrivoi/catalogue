@@ -100,7 +100,7 @@ paths:
         '204':
           description: Student deleted
 
-  /api/students/classCode/{classCode}/professors:
+  /api/students/{studentCode}/professors:
     get:
       tags:
         - Students
@@ -108,7 +108,7 @@ paths:
       operationId: getProfessorsForStudent
       parameters:
         - in: path
-          name: classCode
+          name: studentCode
           required: true
           schema:
             type: string
@@ -127,7 +127,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProfessorResponse'
 
-  /api/students/studentCode/{studentCode}/grades:
+  /api/students/{studentCode}/grades:
     get:
       tags:
         - Students

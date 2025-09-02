@@ -31,7 +31,7 @@ public class StudentsController implements AdminApi {
     // care sa insereze datele start-up script sql pentru creare date initiale
 
     //readme de explicat continutul pachetelor si alegerea design-ului
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private final ManageStudents manageStudents;
 
@@ -43,7 +43,7 @@ public class StudentsController implements AdminApi {
     @Override
     public ResponseEntity<Void> createStudent(CreateStudentRequest request) {
         manageStudents.createStudent(toEntity(request));
-        log.info("Create student with student code = {}", request.getStudentCode());
+        logger.info("Create student with student code = {}", request.getStudentCode());
         return ResponseEntity.status(201).build();
     }
 
@@ -69,14 +69,14 @@ public class StudentsController implements AdminApi {
         student.setCode(request.getStudentCode());
 
         manageStudents.updateStudent(id.longValue(), student);
-        log.info("Update student with student code = {}", request.getStudentCode());
+        logger.info("Update student with student code = {}", request.getStudentCode());
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<Void> deleteStudent(Integer id) {
         manageStudents.removeStudent(id.longValue());
-        log.info("Delete student with id={}", id);
+        logger.info("Delete student with id={}", id);
         return ResponseEntity.noContent().build();
     }
 

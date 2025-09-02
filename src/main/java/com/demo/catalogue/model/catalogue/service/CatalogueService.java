@@ -1,11 +1,15 @@
 package com.demo.catalogue.model.catalogue.service;
 
+import com.demo.catalogue.common.GlobalExceptionHandler;
 import com.demo.catalogue.model.catalogue.events.SchoolClassCreatedEvent;
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
+import com.demo.catalogue.model.catalogue.events.SchoolClassDeletedEvent;
 import com.demo.catalogue.model.catalogue.repository.CatalogueRepository;
 import com.demo.catalogue.model.semester.entity.Semester;
 import com.demo.catalogue.model.semester.repository.SemesterRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ import java.util.UUID;
 
 @Service
 public class CatalogueService  {
+    private static final Logger logger = LoggerFactory.getLogger(CatalogueService.class);
 
     private final CatalogueRepository catalogueRepository;
     private final SemesterRepository semesterRepository;
@@ -56,4 +61,20 @@ public class CatalogueService  {
         }
         return semesters;
     }
+
+
+    @Transactional
+    public void deleteCatalogue(SchoolClassDeletedEvent event) {
+        Catalogue catalogue = catalogueRepository.findByClassCodeAndYear(event.getClassCode(), event.getYear())
+                .orElseThrow(() -> new CatalogueNotFoundException("Catalogue not found with id: " + event.getClassCode()));
+
+        if (catalogue.getSemesters() != null && !catalogue.getSemesters().isEmpty()) {
+            semesterRepository.deleteAll(catalogue.getSemesters());
+            logger.info("Deleted {} semesters for catalogue {}", catalogue.getSemesters().size(), catalogue.getCatalogueCode());
+        }
+        catalogueRepository.delete(catalogue);
+        logger.info("Deleted catalogue with id {} and code {}", catalogue.getId(), catalogue.getCatalogueCode());
+
+    }
+
 }

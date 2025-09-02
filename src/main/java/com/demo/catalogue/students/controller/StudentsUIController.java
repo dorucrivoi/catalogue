@@ -1,12 +1,13 @@
 package com.demo.catalogue.students.controller;
 
-import com.demo.catalogue.model.student.service.StudentService;
+import com.demo.catalogue.model.catalogue.entity.Catalogue;
+import com.demo.catalogue.students.service.GetProfessorDetails;
+import com.demo.catalogue.students.service.GetStudentGrades;
 import com.example.api.StudentsApi;
+import com.example.model.GradesStudentResponse;
 import com.example.model.ProfessorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,8 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/students/classCode")
-public class ViewProfessorsController implements StudentsApi {
+public class StudentsUIController implements StudentsApi {
 
     // TODO de creat in
     //TODO doar stundetii si profesorii au access catre catalogue si responsabilitatiele
@@ -28,24 +28,34 @@ public class ViewProfessorsController implements StudentsApi {
     private static final String BASE_URL = "http://localhost:8080/api/admin/professors";
 
     private final WebClient webClient;
+    private final GetStudentGrades studentGrades;
+    private final GetProfessorDetails professorDetails;
+
 
     @Autowired
-    public ViewProfessorsController(WebClient webClient) {
+    public StudentsUIController(WebClient webClient, GetStudentGrades studentGrades, GetProfessorDetails professorDetails) {
         this.webClient = webClient;
+        this.studentGrades = studentGrades;
+        this.professorDetails = professorDetails;
     }
 
     @Override
-//    @GetMapping("/{classCode}/professors")
-    public ResponseEntity<List<ProfessorResponse>> getProfessorsForStudent(String classCode, Integer year) {
+    public ResponseEntity<List<ProfessorResponse>> getProfessorsForStudent(String studentCode, Integer year) {
         String url = BASE_URL + "/{classCode}/student?year={year}";
 
+        Catalogue catalogue = professorDetails.getCatalogueForStudent(studentCode);
         List<ProfessorResponse> professors = webClient.get()
-                .uri(url, classCode, year)
+                .uri(url, catalogue.getClassCode(), year)
                 .retrieve()
                 .bodyToMono(ProfessorResponse[].class)
                 .map(array -> array != null ? Arrays.asList(array) : Collections.<ProfessorResponse>emptyList())
                 .block();
 
         return ResponseEntity.ok(professors);
+    }
+
+    @Override
+    public ResponseEntity<List<GradesStudentResponse>> getGradesForStudent(String studentCode) {
+        return ResponseEntity.ok(studentGrades.getStudentGrades(studentCode));
     }
 }

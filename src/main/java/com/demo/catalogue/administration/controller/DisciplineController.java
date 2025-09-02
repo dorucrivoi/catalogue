@@ -1,11 +1,14 @@
 package com.demo.catalogue.administration.controller;
 
+import com.demo.catalogue.model.catalogue.service.CatalogueService;
 import com.demo.catalogue.model.discipline.entity.Discipline;
 import com.demo.catalogue.model.discipline.service.DisciplineService;
 import com.example.api.AdminApi;
 import com.example.model.CreateDisciplineRequest;
 import com.example.model.DisciplineResponse;
 import com.example.model.UpdateDisciplineRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +17,9 @@ import java.util.List;
 
 @RestController
 //@RequestMapping("/api") //TODO aici nu merge api pentru voi avea eroare cu api/admin/students
-//@RequestMapping("/api/admin/disciplines")
 public class DisciplineController implements AdminApi {
 
+    private static final Logger logger = LoggerFactory.getLogger(DisciplineController.class);
 
     private final DisciplineService disciplineService;
 
