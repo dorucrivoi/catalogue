@@ -18,4 +18,4 @@ public class RabbitConfig {
     }
 
 }
-// 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gtgitk
+
