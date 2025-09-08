@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class GetStudentGrades {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GetStudentGrades.class);
 
     private final StudentService studentService;
     private final GradeMapper gradeMapper;
@@ -29,6 +29,4 @@ public class GetStudentGrades {
     public List<GradesStudentResponse> getStudentGrades(String classCode) {
         return gradeMapper.toGradesStudentResponseList(studentService.getAllGradesByStudentCode(classCode));
     }
-
-
 }

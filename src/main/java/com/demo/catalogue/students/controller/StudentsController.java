@@ -1,7 +1,7 @@
 package com.demo.catalogue.students.controller;
 
 import com.demo.catalogue.model.catalogue.entity.Catalogue;
-import com.demo.catalogue.students.service.GetProfessorDetails;
+import com.demo.catalogue.students.service.GetCatalogueDetails;
 import com.demo.catalogue.students.service.GetStudentGrades;
 import com.example.api.StudentsApi;
 import com.example.model.GradesStudentResponse;
@@ -16,9 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-public class StudentsUIController implements StudentsApi {
+public class StudentsController implements StudentsApi {
 
-    // TODO de creat in
+    // TODO DE MODIFICAT numele in StudentsController
     //TODO doar stundetii si profesorii au access catre catalogue si responsabilitatiele
     // catalogue si didactic personal
     // administra
@@ -29,11 +29,11 @@ public class StudentsUIController implements StudentsApi {
 
     private final WebClient webClient;
     private final GetStudentGrades studentGrades;
-    private final GetProfessorDetails professorDetails;
+    private final GetCatalogueDetails professorDetails;
 
 
     @Autowired
-    public StudentsUIController(WebClient webClient, GetStudentGrades studentGrades, GetProfessorDetails professorDetails) {
+    public StudentsController(WebClient webClient, GetStudentGrades studentGrades, GetCatalogueDetails professorDetails) {
         this.webClient = webClient;
         this.studentGrades = studentGrades;
         this.professorDetails = professorDetails;

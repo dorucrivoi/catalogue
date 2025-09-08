@@ -1,4 +1,4 @@
-package com.demo.catalogue.professors;
+package com.demo.catalogue.professors.service;
 
 import com.demo.catalogue.model.discipline.service.DisciplineService;
 import com.demo.catalogue.model.grade.entity.Grade;

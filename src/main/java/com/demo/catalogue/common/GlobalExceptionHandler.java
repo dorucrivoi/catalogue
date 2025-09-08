@@ -1,10 +1,10 @@
 package com.demo.catalogue.common;
 
 
-import com.demo.catalogue.administration.controller.DisciplineController;
+import com.demo.catalogue.administration.controller.AdminController;
 import com.demo.catalogue.model.catalogue.service.CatalogueService;
-import com.demo.catalogue.professors.GradesController;
-import com.demo.catalogue.administration.controller.StudentsController;
+import com.demo.catalogue.professors.controller.GradesController;
+import com.demo.catalogue.students.controller.StudentsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 
 
 @ControllerAdvice(assignableTypes = {
-        DisciplineController.class,
+        AdminController.class,
         StudentsController.class,
         GradesController.class,
         CatalogueService.class

@@ -1,13 +1,13 @@
-package com.demo.catalogue.professors;
+package com.demo.catalogue.professors.controller;
 
 import com.demo.catalogue.model.grade.entity.Grade;
+import com.demo.catalogue.professors.service.ManageGrades;
 import com.example.api.ProfessorsApi;
 import com.example.model.CreateGradeRequest;
 import com.example.model.GradeResponse;
 import com.example.model.UpdateGradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 

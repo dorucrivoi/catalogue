@@ -2,25 +2,34 @@ package com.demo.catalogue.administration.controller;
 
 import com.demo.catalogue.administration.service.ManageStudents;
 import com.demo.catalogue.common.GlobalExceptionHandler;
+import com.demo.catalogue.model.discipline.entity.Discipline;
+import com.demo.catalogue.model.discipline.service.DisciplineService;
 import com.demo.catalogue.model.student.entity.Student;
 import com.example.api.AdminApi;
-import com.example.model.CreateStudentRequest;
-import com.example.model.StudentRequest;
-import com.example.model.StudentResponse;
-import com.example.model.UpdateStudentRequest;
+import com.example.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api") // TODO de corectat daca scot nu se poate instantia si nu trece build-ul
-public class StudentsController implements AdminApi {
+public class AdminController implements AdminApi {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+    private final DisciplineService disciplineService;
+    private final ManageStudents manageStudents;
+
+    @Autowired
+    public AdminController(DisciplineService disciplineService, ManageStudents manageStudents) {
+        this.disciplineService = disciplineService;
+        this.manageStudents = manageStudents;
+    }
+
     //apel prin resttemplate la didactic personal
 
     // microservice cu springcloud care sa se conecteze la github unde sunt salvate configurarile fisierele
@@ -31,14 +40,6 @@ public class StudentsController implements AdminApi {
     // care sa insereze datele start-up script sql pentru creare date initiale
 
     //readme de explicat continutul pachetelor si alegerea design-ului
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-    private final ManageStudents manageStudents;
-
-    @Autowired
-    public StudentsController(ManageStudents manageStudents) {
-        this.manageStudents = manageStudents;
-    }
 
     @Override
     public ResponseEntity<Void> createStudent(CreateStudentRequest request) {
@@ -56,10 +57,10 @@ public class StudentsController implements AdminApi {
         return ResponseEntity.ok(responses);
     }
 
-     @Override
-     public ResponseEntity<StudentResponse> getStudentById(Integer id){
+    @Override
+    public ResponseEntity<StudentResponse> getStudentById(Integer id){
         return ResponseEntity.ok(toResponse(manageStudents.findStudent(id.longValue())));
-     }
+    }
 
     @Override
     public ResponseEntity<Void> updateStudent(Integer id, UpdateStudentRequest request) {
@@ -96,4 +97,64 @@ public class StudentsController implements AdminApi {
         response.setStudentCode(student.getCode());
         return response;
     }
+
+    @Override
+    public  ResponseEntity<Void> createDiscipline(@RequestBody CreateDisciplineRequest createDisciplineRequest) {
+         disciplineService.create(toEntity(createDisciplineRequest));
+        return ResponseEntity.status(201).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> updateDiscipline(Integer id,  UpdateDisciplineRequest updateDisciplineRequest) {
+         disciplineService.update(id.longValue(), toEntity(updateDisciplineRequest));
+        return ResponseEntity.status(201).build();
+    }
+
+
+    @Override
+    public ResponseEntity<List<DisciplineResponse>> getAllDisciplines() {
+        List<DisciplineResponse> responses = disciplineService.getAll().stream()
+                .map(discipline -> {
+                    DisciplineResponse response = new DisciplineResponse();
+                    response.setId(discipline.getId().intValue());
+                    response.setName(discipline.getName());
+                    response.setDisciplineCode(discipline.getCode());
+                    return response;
+                })
+                .toList();
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteDiscipline(Integer  id) {
+        disciplineService.delete(id.longValue());
+        return ResponseEntity.status(204).build();
+    }
+
+    @Override
+    public ResponseEntity<DisciplineResponse> getDisciplineById(Integer id){
+        Discipline discipline = disciplineService.getById(id.longValue());
+        DisciplineResponse response = new DisciplineResponse();
+        response.setId(discipline.getId().intValue());
+        response.setName(discipline.getName());
+        response.setDisciplineCode(discipline.getCode());
+        return ResponseEntity.ok(response);
+
+    }
+
+    public static Discipline toEntity(CreateDisciplineRequest request) {
+        Discipline discipline = new Discipline();
+        discipline.setName(request.getName());
+        discipline.setCode(request.getDisciplineCode());
+        return discipline;
+    }
+
+    public static Discipline toEntity(UpdateDisciplineRequest request) {
+        Discipline discipline = new Discipline();
+        discipline.setName(request.getName());
+        discipline.setCode(request.getDisciplineCode());
+        return discipline;
+    }
 }
+
