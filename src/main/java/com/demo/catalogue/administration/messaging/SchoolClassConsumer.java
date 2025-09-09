@@ -30,10 +30,6 @@ public class SchoolClassConsumer {
 
     @RabbitListener(queues = "school-class-queue")
     public void consumeSchoolClassEvent(Message message) {
-        //one way
-        //request response asyncron plus o coada
-        // posibil de creat un nou producer si un consumer
-        // un nou tabel in primul serviciu unde monitorizez messagele consumate
         try {
             // Deserialize JSON string into POJO
             System.out.println("📥 Received event: " + message.getBody());
@@ -48,11 +44,6 @@ public class SchoolClassConsumer {
                 catalogueService.deleteCatalogue(event);
                 System.out.println("📥 Received event: " + event);
             }
-            // de creat un DTO - CatalogueCreateDetails
-            //TODO mai trebuie folosit ManageCatalogue sau folosim sau service-urile??
-            //TODO de configurat logica de retry pentru exceptii la ce exceptie anume
-            //Idempotent consumer pattern
-
         } catch (JsonProcessingException e) {
             System.err.println("❌ Failed to parse JSON: " + e.getMessage());
         } catch (ValidationException ex){
