@@ -1,10 +1,9 @@
 package com.demo.catalogue.administration.controller;
 
-import com.demo.catalogue.administration.service.ManageStudents;
-import com.demo.catalogue.common.GlobalExceptionHandler;
 import com.demo.catalogue.model.discipline.entity.Discipline;
 import com.demo.catalogue.model.discipline.service.DisciplineService;
 import com.demo.catalogue.model.student.entity.Student;
+import com.demo.catalogue.model.student.service.StudentService;
 import com.example.api.AdminApi;
 import com.example.model.*;
 import org.slf4j.Logger;
@@ -22,35 +21,24 @@ public class AdminController implements AdminApi {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     private final DisciplineService disciplineService;
-    private final ManageStudents manageStudents;
+    private final StudentService studentService;
 
     @Autowired
-    public AdminController(DisciplineService disciplineService, ManageStudents manageStudents) {
+    public AdminController(DisciplineService disciplineService, StudentService manageStudents) {
         this.disciplineService = disciplineService;
-        this.manageStudents = manageStudents;
+        this.studentService = manageStudents;
     }
-
-    //apel prin resttemplate la didactic personal
-
-    // microservice cu springcloud care sa se conecteze la github unde sunt salvate configurarile fisierele
-    // daca nu se poate configura la git, sa fie ceva default de tip localhost
-    // de scris teste la sfarsit
-    //din loguri sa se vada crearea clasei, catalogului
-    // la H2 pot pune un script care insereaza in database
-    // care sa insereze datele start-up script sql pentru creare date initiale
-
-    //readme de explicat continutul pachetelor si alegerea design-ului
 
     @Override
     public ResponseEntity<Void> createStudent(CreateStudentRequest request) {
-        manageStudents.createStudent(toEntity(request));
+        studentService.createStudent(toEntity(request));
         logger.info("Create student with student code = {}", request.getStudentCode());
         return ResponseEntity.status(201).build();
     }
 
     @Override
     public ResponseEntity<List<StudentResponse>> getAllStudents() {
-        List<StudentResponse> responses = manageStudents.findStudents()
+        List<StudentResponse> responses = studentService.getAllStudents()
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -59,7 +47,7 @@ public class AdminController implements AdminApi {
 
     @Override
     public ResponseEntity<StudentResponse> getStudentById(Integer id){
-        return ResponseEntity.ok(toResponse(manageStudents.findStudent(id.longValue())));
+        return ResponseEntity.ok(toResponse(studentService.getById(id.longValue())));
     }
 
     @Override
@@ -69,47 +57,31 @@ public class AdminController implements AdminApi {
         student.setCatCode(request.getCatalogueCode());
         student.setCode(request.getStudentCode());
 
-        manageStudents.updateStudent(id.longValue(), student);
+        studentService.updateStudent(id.longValue(), student);
         logger.info("Update student with student code = {}", request.getStudentCode());
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<Void> deleteStudent(Integer id) {
-        manageStudents.removeStudent(id.longValue());
+        studentService.deleteStudent(id.longValue());
         logger.info("Delete student with id={}", id);
         return ResponseEntity.noContent().build();
     }
 
-    public static Student toEntity(CreateStudentRequest request) {
-        Student student = new Student();
-        student.setName(request.getName());
-        student.setCatCode(request.getCatalogueCode());
-        student.setCode(request.getStudentCode());
-        return student;
-    }
-
-    private StudentResponse toResponse(Student student) {
-        StudentResponse response = new StudentResponse();
-        response.setId(student.getId().intValue());
-        response.setName(student.getName());
-        response.setCatalogueCode(student.getCatCode());
-        response.setStudentCode(student.getCode());
-        return response;
-    }
-
     @Override
     public  ResponseEntity<Void> createDiscipline(@RequestBody CreateDisciplineRequest createDisciplineRequest) {
-         disciplineService.create(toEntity(createDisciplineRequest));
+        disciplineService.create(toEntity(createDisciplineRequest));
+        logger.info("Create discipline with id={}", createDisciplineRequest.getDisciplineCode());
         return ResponseEntity.status(201).build();
     }
 
     @Override
     public ResponseEntity<Void> updateDiscipline(Integer id,  UpdateDisciplineRequest updateDisciplineRequest) {
-         disciplineService.update(id.longValue(), toEntity(updateDisciplineRequest));
+        disciplineService.update(id.longValue(), toEntity(updateDisciplineRequest));
+        logger.info("Update discipline with id={}", id);
         return ResponseEntity.status(201).build();
     }
-
 
     @Override
     public ResponseEntity<List<DisciplineResponse>> getAllDisciplines() {
@@ -129,6 +101,7 @@ public class AdminController implements AdminApi {
     @Override
     public ResponseEntity<Void> deleteDiscipline(Integer  id) {
         disciplineService.delete(id.longValue());
+        logger.info("Delete discipline with id={}", id);
         return ResponseEntity.status(204).build();
     }
 
@@ -155,6 +128,23 @@ public class AdminController implements AdminApi {
         discipline.setName(request.getName());
         discipline.setCode(request.getDisciplineCode());
         return discipline;
+    }
+
+    public static Student toEntity(CreateStudentRequest request) {
+        Student student = new Student();
+        student.setName(request.getName());
+        student.setCatCode(request.getCatalogueCode());
+        student.setCode(request.getStudentCode());
+        return student;
+    }
+
+    private StudentResponse toResponse(Student student) {
+        StudentResponse response = new StudentResponse();
+        response.setId(student.getId().intValue());
+        response.setName(student.getName());
+        response.setCatalogueCode(student.getCatCode());
+        response.setStudentCode(student.getCode());
+        return response;
     }
 }
 

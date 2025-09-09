@@ -14,9 +14,9 @@
                 <Pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] %c{1} - %msg%n</Pattern>
             </PatternLayout>
             <Policies>
-                <!-- Rotește log-ul când depășește 10MB -->
+                <!-- Schimba log-ul când depășește 10MB -->
                 <SizeBasedTriggeringPolicy size="10 MB" />
-                <!-- Rotește log-ul zilnic -->
+                <!-- Schimba log-ul zilnic -->
                 <TimeBasedTriggeringPolicy interval="1" />
             </Policies>
             <!-- Păstrează doar ultimele 10 fișiere -->
