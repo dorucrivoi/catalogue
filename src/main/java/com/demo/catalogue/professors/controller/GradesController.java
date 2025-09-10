@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.List;
+
 
 @RestController
-//@RequestMapping("/api")
-//@RequestMapping("/api/admin/disciplines")
 public class GradesController implements ProfessorsApi {
 
         private ManageGrades gradeService;
@@ -33,6 +34,12 @@ public class GradesController implements ProfessorsApi {
         public ResponseEntity<Void> updateGrade(Integer id,  UpdateGradeRequest request) {
             gradeService.updateGrade(id, request);
             return ResponseEntity.status(201).build();
+        }
+
+        @Override
+        public ResponseEntity<List<GradeResponse>> getAllGrades(){
+          List<Grade> grades =  gradeService.getAllGrades();
+            return ResponseEntity.ok(mapToResponseList(grades));
         }
 
         @Override
@@ -58,5 +65,14 @@ public class GradesController implements ProfessorsApi {
             response.setSemesterId(grade.getSemester().getId().intValue());
             return response;
         }
+
+    private List<GradeResponse> mapToResponseList(List<Grade> grades) {
+        if (grades == null) {
+            return Collections.emptyList();
+        }
+        return grades.stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 }
 

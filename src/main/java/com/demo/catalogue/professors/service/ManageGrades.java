@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public class ManageGrades {
@@ -43,6 +44,10 @@ public class ManageGrades {
     @Transactional
     public void deteleGrade(Integer id){
         gradeService.deleteGrade(id.longValue());
+    }
+
+    public List<Grade> getAllGrades() {
+        return gradeService.getAllGrades();
     }
 
     public Grade getGradeById(Long id) {
