@@ -21,18 +21,15 @@ spring:
       enabled: true
       path: /h2-console
 
-  # ===== JPA / Hibernate =====
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: true
 
-  # ===== Flyway =====
   flyway:
     enabled: true
     locations: classpath:db/migration
 
-# ===== RabbitMQ =====
 rabbitmq:
   host: localhost
   port: 5672
@@ -42,7 +39,6 @@ rabbitmq:
     simple:
       default-requeue-rejected: false
 
-# ===== Logging =====
 logging:
   level:
     root: INFO
