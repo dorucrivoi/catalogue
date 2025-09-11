@@ -18,13 +18,6 @@ import java.util.List;
 @RestController
 public class StudentsController implements StudentsApi {
 
-    // TODO DE MODIFICAT numele in StudentsController
-    //TODO doar stundetii si profesorii au access catre catalogue si responsabilitatiele
-    // catalogue si didactic personal
-    // administra
-// prin adaugarea actorilor admin/students se va decide rolurile
-    //shallow health check  de citit  deep health check - se face in catalogue si se verifica dependeta intre servicii
-    //health check indicator spring si  in catalogue - se poate adauga un ping
     private static final String BASE_URL = "http://localhost:8080/api/admin/professors";
 
     private final WebClient webClient;

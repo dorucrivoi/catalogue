@@ -2,7 +2,6 @@ package com.demo.catalogue.model.grade.service;
 
 import com.demo.catalogue.model.grade.entity.Grade;
 import com.demo.catalogue.model.grade.repository.GradeRepository;
-import com.demo.catalogue.model.student.service.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
