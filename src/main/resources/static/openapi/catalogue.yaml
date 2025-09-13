@@ -27,7 +27,7 @@ paths:
           name: classCode
           required: true
           schema:
-            type: String
+            type: string
         - in: query
           name: year
           required: true

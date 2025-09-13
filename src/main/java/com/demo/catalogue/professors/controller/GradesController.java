@@ -17,40 +17,40 @@ import java.util.List;
 @RestController
 public class GradesController implements ProfessorsApi {
 
-        private ManageGrades gradeService;
+        private ManageGrades manageGrades;
 
         @Autowired
         public GradesController(ManageGrades gradeService) {
-            this.gradeService = gradeService;
+            this.manageGrades = gradeService;
         }
 
         @Override
         public ResponseEntity<Void> createGrade(CreateGradeRequest request) {
-            gradeService.createGrade(request);
+            manageGrades.createGrade(request);
             return ResponseEntity.status(201).build();
         }
 
         @Override
         public ResponseEntity<Void> updateGrade(Integer id,  UpdateGradeRequest request) {
-            gradeService.updateGrade(id, request);
+            manageGrades.updateGrade(id.longValue(), request);
             return ResponseEntity.status(201).build();
         }
 
         @Override
         public ResponseEntity<List<GradeResponse>> getAllGrades(){
-          List<Grade> grades =  gradeService.getAllGrades();
+          List<Grade> grades =  manageGrades.getAllGrades();
             return ResponseEntity.ok(mapToResponseList(grades));
         }
 
         @Override
         public ResponseEntity<Void> deleteGrade(Integer id) {
-            gradeService.deteleGrade(id);
+            manageGrades.deleteGrade(id.longValue());
             return ResponseEntity.ok().build();
         }
 
         @Override
         public ResponseEntity<GradeResponse> getGradeById(Integer id) {
-            Grade grade = gradeService.getGradeById(id.longValue());
+            Grade grade = manageGrades.getGradeById(id.longValue());
             return ResponseEntity.ok(mapToResponse(grade));
         }
 
