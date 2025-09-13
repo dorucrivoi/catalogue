@@ -16,6 +16,30 @@ tags:
     description: Operations related to professors and grades
 
 paths:
+  /api/admin/catalogue/{classCode}:
+    get:
+      tags:
+        - Admin
+      summary: Get catalogue
+      operationId: getCatalogueByClassCode
+      parameters:
+        - in: path
+          name: classCode
+          required: true
+          schema:
+            type: String
+        - in: query
+          name: year
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Return catalogue
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/CatalogueResponse'
   /api/admin/students:
     post:
       tags:
@@ -445,3 +469,20 @@ components:
         date:
           type: string
           format: date
+
+    CatalogueResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        name:
+          type: string
+        catalogueCode:
+          type: string
+        classCode:
+          type: string
+        year:
+          type: integer
+          format: int32

@@ -1,5 +1,7 @@
 package com.demo.catalogue.administration.controller;
 
+import com.demo.catalogue.administration.mapper.CatalogueMapper;
+import com.demo.catalogue.model.catalogue.service.CatalogueService;
 import com.demo.catalogue.model.discipline.entity.Discipline;
 import com.demo.catalogue.model.discipline.service.DisciplineService;
 import com.demo.catalogue.model.student.entity.Student;
@@ -22,11 +24,24 @@ public class AdminController implements AdminApi {
 
     private final DisciplineService disciplineService;
     private final StudentService studentService;
+    private final CatalogueService catalogueService;
+    private final CatalogueMapper catalogueMapper;
 
     @Autowired
-    public AdminController(DisciplineService disciplineService, StudentService manageStudents) {
+    public AdminController(DisciplineService disciplineService, StudentService manageStudents,
+                           CatalogueService catalogueService, CatalogueMapper catalogueMapper) {
         this.disciplineService = disciplineService;
         this.studentService = manageStudents;
+        this.catalogueService = catalogueService;
+        this.catalogueMapper = catalogueMapper;
+    }
+
+    @Override
+    public ResponseEntity<CatalogueResponse> getCatalogueByClassCode(String catalogueCode, Integer year){
+        logger.info("Get catalogue by code = {}", catalogueCode);
+        return ResponseEntity.ok(catalogueMapper.toCatalogueResponse(
+                catalogueService.getCatalogueByClassCode(catalogueCode, year)));
+
     }
 
     @Override
@@ -42,12 +57,15 @@ public class AdminController implements AdminApi {
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+        logger.info("Get students");
         return ResponseEntity.ok(responses);
     }
 
     @Override
     public ResponseEntity<StudentResponse> getStudentById(Integer id){
+        logger.info("Get student by id = {}", id);
         return ResponseEntity.ok(toResponse(studentService.getById(id.longValue())));
+
     }
 
     @Override
@@ -94,7 +112,7 @@ public class AdminController implements AdminApi {
                     return response;
                 })
                 .toList();
-
+        logger.info("Get disciplines");
         return ResponseEntity.ok(responses);
     }
 

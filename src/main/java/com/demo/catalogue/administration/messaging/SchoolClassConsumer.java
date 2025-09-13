@@ -32,20 +32,25 @@ public class SchoolClassConsumer {
     public void consumeSchoolClassEvent(Message message) {
         try {
             // Deserialize JSON string into POJO
-            System.out.println("📥 Received event: " + message.getBody());
+            logger.info(" Received event: {}", message.getBody());
             String type = (String) message.getMessageProperties().getHeaders().get("type");
-            //TODO add switch
-            if ("SchoolClassCreatedEvent".equals(type)) {
-                SchoolClassCreatedEvent event = objectMapper.readValue(message.getBody(), SchoolClassCreatedEvent.class);
-                System.out.println("📥 Received event: " + event);
-                catalogueService.createCatalogue(event);
-            } else if ("SchoolClassDeletedEvent".equals(type)) {
-                SchoolClassDeletedEvent event = objectMapper.readValue(message.getBody(), SchoolClassDeletedEvent.class);
-                catalogueService.deleteCatalogue(event);
-                System.out.println("📥 Received event: " + event);
+            switch (type) {
+                case "SchoolClassCreatedEvent" -> {
+                    SchoolClassCreatedEvent event =
+                            objectMapper.readValue(message.getBody(), SchoolClassCreatedEvent.class);
+                    catalogueService.createCatalogue(event);
+                    logger.info("Received event for creation: {}", event);
+                }
+                case "SchoolClassDeletedEvent" -> {
+                    SchoolClassDeletedEvent event =
+                            objectMapper.readValue(message.getBody(), SchoolClassDeletedEvent.class);
+                    catalogueService.deleteCatalogue(event);
+                    logger.info("Received event for deletion: {}", event);
+                }
+                default -> logger.warn("Received unknown event type: {}", type);
             }
         } catch (JsonProcessingException e) {
-            System.err.println("❌ Failed to parse JSON: " + e.getMessage());
+            logger.error(" Failed to parse JSON: {}", e.getMessage());
         } catch (ValidationException ex){
             //Ignoring exception because the event maybe duplicated
             logger.error("Catalogue already exists " , ex);

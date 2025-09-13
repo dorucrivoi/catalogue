@@ -34,12 +34,12 @@ public class CatalogueService  {
             throw new CatalogueAlreadyCreatedException("Catalogue have already created");
         }
         Catalogue catalogue = new Catalogue();
-        catalogue.setName("Catalogul " + event.getClassCode());
+        catalogue.setName("Catalogue for " + event.getClassCode());
         catalogue.setCatalogueCode( event.getClassCode()  + "-" + event.getYear());
         catalogue.setClassCode(event.getClassCode());
         catalogue.setYear(event.getYear());
         catalogue.setSemesters(createSemesters(catalogue));
-
+        logger.info("Creating  catalogue and semesters with code {} and ", catalogue.getCatalogueCode());
         return catalogueRepository.save(catalogue);
 
     }
@@ -68,7 +68,13 @@ public class CatalogueService  {
         }
         catalogueRepository.delete(catalogue);
         logger.info("Deleted catalogue with id {} and code {}", catalogue.getId(), catalogue.getCatalogueCode());
+    }
 
+    public Catalogue getCatalogueByClassCode(String classCode, int year){
+        Catalogue catalogue = catalogueRepository.findByClassCodeAndYear(classCode, year)
+                .orElseThrow(() -> new CatalogueNotFoundException("Catalogue not found with classCode: " + classCode));
+        logger.info("Get catalogue with catalogueCode {} and year {}", catalogue.getCatalogueCode(), catalogue.getYear());
+        return  catalogue;
     }
 
 }
