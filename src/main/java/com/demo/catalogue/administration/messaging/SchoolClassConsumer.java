@@ -32,7 +32,6 @@ public class SchoolClassConsumer {
     public void consumeSchoolClassEvent(Message message) {
         try {
             // Deserialize JSON string into POJO
-            logger.info(" Received event: {}", message.getBody());
             String type = (String) message.getMessageProperties().getHeaders().get("type");
             switch (type) {
                 case "SchoolClassCreatedEvent" -> {

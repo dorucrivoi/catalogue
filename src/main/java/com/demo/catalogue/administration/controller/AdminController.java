@@ -37,10 +37,10 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<CatalogueResponse> getCatalogueByClassCode(String catalogueCode, Integer year){
-        logger.info("Get catalogue by code = {}", catalogueCode);
+    public ResponseEntity<CatalogueResponse> getCatalogueByClassCode(String classCode, Integer year){
+        logger.info("Get catalogue by classCode = {}", classCode);
         return ResponseEntity.ok(catalogueMapper.toCatalogueResponse(
-                catalogueService.getCatalogueByClassCode(catalogueCode, year)));
+                catalogueService.getCatalogueByClassCode(classCode, year)));
 
     }
 
