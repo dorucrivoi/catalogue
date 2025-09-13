@@ -128,7 +128,7 @@ paths:
     get:
       tags:
         - Students
-      summary: Get professors for a class and year
+      summary: Get professors for a student and year
       operationId: getProfessorsForStudent
       parameters:
         - in: path
