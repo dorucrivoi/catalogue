@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class SchoolClassConsumer {
     @RabbitListener(queues = "school-class-queue")
     public void consumeSchoolClassEvent(Message message) {
         try {
+            String correlationId = (String) message.getMessageProperties().getHeaders()
+                    .getOrDefault("X-Correlation-Id", java.util.UUID.randomUUID().toString());
+            MDC.put("X-Correlation-Id", correlationId);
             // Deserialize JSON string into POJO
             String type = (String) message.getMessageProperties().getHeaders().get("type");
             switch (type) {

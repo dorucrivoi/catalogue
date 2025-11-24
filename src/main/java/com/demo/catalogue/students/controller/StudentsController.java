@@ -22,6 +22,7 @@ import java.util.List;
 public class StudentsController implements StudentsApi {
 
     private static final Logger logger = LoggerFactory.getLogger(StudentsController.class);
+   //TODO de schimbat URL catre API-Gateway
     private static final String BASE_URL = "http://localhost:8080/api/admin/professors";
 
     private final WebClient webClient;
