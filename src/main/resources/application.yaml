@@ -4,16 +4,20 @@ server:
 spring:
   application:
     name: catalogue
-  eureka:
-    client:
-      healthcheck:
-        enabled: true
-      service-url:
-        defaultZone: http://localhost:8761/eureka/
+
+  profiles:
+    active:
+      - database
+      - rabbitmq
+      - logging
+      - swagger
 
   config:
-    import:
-      - "optional:configserver:http://localhost:8888" # Config server override (optional)
+    import: optional:configserver:http://didactic-config-server:8888
+
+  cloud:
+    config:
+      label: main
 
   # ===== Datasource (H2) =====
   datasource:
@@ -30,22 +34,22 @@ spring:
   jpa:
     properties:
       hibernate:
-        format_sql: false
         ddl-auto: none
-        show-sql: true
+        format_sql: false
+      show-sql: true
 
   flyway:
     enabled: true
     locations: classpath:db/migration
 
-rabbitmq:
-  host: localhost
-  port: 5672
-  username: guest
-  password: guest
-  listener:
-    simple:
-      default-requeue-rejected: false
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#    listener:
+#      simple:
+#        default-requeue-rejected: false
 
 logging:
   level:
@@ -54,8 +58,21 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
 
-# ===== Swagger / Springdoc =====
 springdoc:
   swagger-ui:
     url: /openapi/catalogue.yaml
     disable-swagger-default-url: true
+
+# ===== Eureka (MUST BE AT ROOT LEVEL) =====
+eureka:
+  instance:
+    hostname: catalogue
+    prefer-ip-address: false
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
