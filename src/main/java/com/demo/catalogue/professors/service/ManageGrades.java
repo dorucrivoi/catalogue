@@ -56,6 +56,7 @@ public class ManageGrades {
         logger.info("Deleted grade with id: {}", id);
     }
 
+    //TODO get grades by professor code should be implemented
     public List<Grade> getAllGrades() {
         return gradeService.getAllGrades();
     }

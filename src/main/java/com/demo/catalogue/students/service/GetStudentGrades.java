@@ -1,9 +1,7 @@
 package com.demo.catalogue.students.service;
 
-import com.demo.catalogue.common.GlobalExceptionHandler;
 import com.demo.catalogue.model.student.service.StudentService;
 import com.demo.catalogue.students.mapper.GradeMapper;
-import com.example.model.GradeResponse;
 import com.example.model.GradesStudentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

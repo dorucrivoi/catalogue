@@ -35,7 +35,8 @@ public class CatalogueService  {
         }
         Catalogue catalogue = new Catalogue();
         catalogue.setName("Catalogue for " + event.getClassCode());
-        catalogue.setCatalogueCode( event.getClassCode()  + "-" + event.getYear());
+        //TODO normal forms - de citit , referitor la date atomice
+        catalogue.setCatalogueCode(event.getClassCode()  + "-" + event.getYear());
         catalogue.setClassCode(event.getClassCode());
         catalogue.setYear(event.getYear());
         catalogue.setSemesters(createSemesters(catalogue));
